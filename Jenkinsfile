@@ -17,12 +17,12 @@ pipeline {
       agent { docker { image "node:16-alpine"; args "-u root" } }
 
       steps {
-        sh 'chown -R node:node * && su -c "npm ci && npm test" node'
+        sh 'chown -R node:node * && chown node:node . && su -c "npm ci && npm test" node'
       }
       post {
         always {
           script {
-            sh "chown -R root:root"
+            sh "chown -R root:root && chown root:root ."
           }
         }
       }
